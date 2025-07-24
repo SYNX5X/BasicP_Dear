@@ -11,11 +11,14 @@ def show_movies(movie_list):
         print(M["movie_name"])         
  
 # ฟังก์ชันตรวจสอบอายุตามข้อจำกัดของหนัง
-#def check_age(user_age, age_restriction):
+def check_age(user_age, age_restriction):
     # TODO: ถ้า age_restriction เป็น 'G' ให้ผ่านเลย
     # ถ้าไม่ใช่ ให้ดึงเลขอายุขั้นต่ำมาเปรียบเทียบกับ user_age
     # user_age = int(input("กรุณาใส่อายุ" ))
-    # if user_age  
+    # if user_age   
+    user_age = int(input("กรอกอายุของท่าน"))
+    if user_age == ["age_restriction"] :
+        print("fauk")
     
 
 # ฟังก์ชันคำนวณราคาตั๋วโดยขึ้นกับประเภทหนัง
@@ -36,8 +39,13 @@ def buy_ticket(movie_list):
     # 7. แสดงผลการซื้อบัตร พร้อมชื่อหนัง, เสียงที่เลือก, ราคาตั๋
     show_movies(movie_list)
     WM = int(input("อยากดูหนังเรื่องไหน "))
-    if WM == 1 :
-         print(show_movies["movie_name"])
+    if 1 <= WM <= len(movie_list):
+        print(movie_list[WM - 1]["movie_name"])
+    else:
+        print("เลือกหมายเลขภาพยนตร์ไม่ถูกต้อง")
+   
+
+    
 
 def main():
     # TODO: สร้างรายการหนังเป็น list ของ dict โดยเก็บข้อมูล movie_name, ticket_price, genre, age_restriction
@@ -59,6 +67,7 @@ def main():
         show_movies(movies)
     elif Buy == 2 :
         buy_ticket(movies)
+        
  
     # รับค่าตัวเลือกเมนูจากผู้ใช้
     menu = input("เลือกเมนู: ")
