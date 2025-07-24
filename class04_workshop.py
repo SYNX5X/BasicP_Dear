@@ -1,81 +1,77 @@
-# movies = [
-#         {'movie_name': 'Avengers Endgame', 'ticket_price': 300, 'genre': 'Action', 'age_restriction': '13'},
-#         {'movie_name': 'Inception', 'ticket_price': 280, 'genre': 'Sci-Fi', 'age_restriction': '13'},
-#         {'movie_name': 'It', 'ticket_price': 180, 'genre': 'Horror', 'age_restriction': '18'},
-#         {'movie_name': 'The Notebook', 'ticket_price': 250, 'genre': 'Romantic', 'age_restriction': '13'},
-#         {'movie_name': 'Harry Potter and the Sorcerer\'s Stone', 'ticket_price': 260, 'genre': 'Fantasy', 'age_restriction': 'G'}
-#     ]
-# ฟังก์ชันแสดงรายชื่อหนังทั้งหมดในระบบ
+# แสดงรายชื่อหนัง
 def show_movies(movie_list):
-    for M  in movie_list :
-        print(M["movie_name"])         
- 
-# ฟังก์ชันตรวจสอบอายุตามข้อจำกัดของหนัง
+    print(" รายชื่อหนัง:")
+    for i in range(len(movie_list)):
+        print(movie_list[i]['movie_name'] )
+
+# ตรวจสอบอายุ
 def check_age(user_age, age_restriction):
-    # TODO: ถ้า age_restriction เป็น 'G' ให้ผ่านเลย
-    # ถ้าไม่ใช่ ให้ดึงเลขอายุขั้นต่ำมาเปรียบเทียบกับ user_age
-    # user_age = int(input("กรุณาใส่อายุ" ))
-    # if user_age   
-    user_age = int(input("กรอกอายุของท่าน"))
-    if user_age == ["age_restriction"] :
-        print("fauk")
-    
-
-# ฟังก์ชันคำนวณราคาตั๋วโดยขึ้นกับประเภทหนัง
-#def calculate_price(base_price, genre):
-    # TODO: ถ้า genre เป็น 'Romantic' บวกเพิ่ม 50 บาท
-    # ถ้าไม่ใช่ คืนราคาเดิม
- 
-# ฟังก์ชันสำหรับการซื้อบัตรชมหนัง
-def buy_ticket(movie_list):
-    # TODO:
-    # 1. เรียก show_movies เพื่อแสดงรายชื่อหนัง
-    # 2. รับค่าตัวเลือกหนังจากผู้ใช้ (1-5)
-    # 3. รับอายุผู้ใช้
-    # 4. ตรวจสอบอายุผ่าน check_age
-    #    - ถ้าไม่ผ่าน ให้แสดงข้อความว่าอายุน้อยเกินไปและ return ออกจากฟังก์ชัน
-    # 5. ให้ผู้ใช้เลือกเสียงพากย์ (1 = พากย์ไทย, 2 = Soundtrack)
-    # 6. คำนวณราคาตั๋วโดยใช้ calculate_price
-    # 7. แสดงผลการซื้อบัตร พร้อมชื่อหนัง, เสียงที่เลือก, ราคาตั๋
-    show_movies(movie_list)
-    WM = int(input("อยากดูหนังเรื่องไหน "))
-    if 1 <= WM <= len(movie_list):
-        print(movie_list[WM - 1]["movie_name"])
+    if age_restriction== 'G':
+        return True
+    elif user_age >= int(age_restriction):
+        return True
     else:
-        print("เลือกหมายเลขภาพยนตร์ไม่ถูกต้อง")
-   
+        return False
 
-    
+# คำนวณราคาตั๋ว
+def calculate_price(price, cal):
+    if cal == 'Romantic':
+        return price + 50
+    else:
+        return price
 
+# ซื้อตั๋วหนัง
+def buy_ticket(movie_list):
+    show_movies(movie_list)
+    choice = int(input("เลือกหนัง (1-5): ")) - 1
+    if choice >= 0 and choice < len(movie_list):
+        movie = movie_list[choice]
+        age = int(input("กรุณาใส่อายุของคุณ: "))
+
+        if check_age(age, movie['age_restriction']):
+            print("เลือกเสียง: 1 = พากย์ไทย, 2 = Soundtrack")
+            sub = input("เลือกเสียง: ")
+
+            if sub == '1':
+                sound = "พากย์ไทย"
+            elif sub == '2':
+                sound = "Soundtrack"
+            else:
+                sound = "ไม่ระบุ"
+
+            price = calculate_price(movie['ticket_price'], movie['cal'])
+
+            print("ตั๋วหนังของคุณ")
+            print("เรื่อง:", movie['movie_name'])
+            print("เสียง:", sound)
+            print("ราคาตั๋ว:", price, "บาท")
+        else:
+            print(" คุณอายุน้อยเกินไปสำหรับหนังเรื่องนี้")
+    else:
+        print(" เลือกหนังไม่ถูกต้อง")
+
+# เมนูหลัก
 def main():
-    # TODO: สร้างรายการหนังเป็น list ของ dict โดยเก็บข้อมูล movie_name, ticket_price, genre, age_restriction
     movies = [
         {'movie_name': 'Avengers Endgame', 'ticket_price': 300, 'genre': 'Action', 'age_restriction': '13'},
         {'movie_name': 'Inception', 'ticket_price': 280, 'genre': 'Sci-Fi', 'age_restriction': '13'},
         {'movie_name': 'It', 'ticket_price': 180, 'genre': 'Horror', 'age_restriction': '18'},
         {'movie_name': 'The Notebook', 'ticket_price': 250, 'genre': 'Romantic', 'age_restriction': '13'},
-        {'movie_name': 'Harry Potter and the Sorcerer\'s Stone', 'ticket_price': 260, 'genre': 'Fantasy', 'age_restriction': 'G'}
+        {'movie_name': 'Harry Potter', 'ticket_price': 260, 'genre': 'Fantasy', 'age_restriction': 'G'}
     ]
- 
-    # TODO: แสดงเมนูให้ผู้ใช้เลือก
-    # 1. แสดงหนังทั้งหมด
-    # 2. ซื้อตั๋วหนัง
 
-    print("เลือกเมนู")
-    Buy = int(input())
-    if Buy == 1 :
+    print(" เมนู")
+    print("1. แสดงหนังทั้งหมด")
+    print("2. ซื้อตั๋วหนัง")
+
+    menu = input("เลือกเมนู (1 หรือ 2): ")
+
+    if menu == '1':
         show_movies(movies)
-    elif Buy == 2 :
+    elif menu == '2':
         buy_ticket(movies)
-        
- 
-    # รับค่าตัวเลือกเมนูจากผู้ใช้
-    menu = input("เลือกเมนู: ")
- 
-    # TODO: ตรวจสอบเมนูที่เลือก
-    # ถ้าเลือก 1 ให้เรียก show_movies พร้อมส่ง movies
-    # ถ้าเลือก 2 ให้เรียก buy_ticket พร้อมส่ง movies
-    # ถ้าเลือกอื่น ให้แสดงข้อความว่าเมนูไม่ถูกต้อง
- 
-# เรียก main เพื่อเริ่มโปรแกรม
+    else:
+        print(" เมนูไม่ถูกต้อง")
+
+# เรียกใช้งาน
 main()
